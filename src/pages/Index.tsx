@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
@@ -30,6 +29,7 @@ import { Building, Calendar as CalendarIcon, Users } from "lucide-react";
 import { Header } from "@/components/Header";
 import { useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
+import { useBirthdays } from "@/utils/database";
 
 const locations = ["MANAUS", "SÃO PAULO", "CURITIBA", "RIO DE JANEIRO"];
 
@@ -39,16 +39,15 @@ const IndexPage = () => {
   const [date, setDate] = useState(new Date());
   const [meetings, setMeetings] = useState([]);
   const [showBirthdayModal, setShowBirthdayModal] = useState(false);
-  const [birthdays, setBirthdays] = useState([]);
+  
+  const { birthdays, loading: birthdaysLoading } = useBirthdays(selectedLocation, date);
 
   const formattedDate = format(date, "yyyy-MM-dd");
   const currentDateFormatted = format(date, "dd 'de' MMMM", { locale: ptBR });
   const dayOfMonth = format(date, "dd");
   const monthName = format(date, "MMMM", { locale: ptBR });
 
-  // Simulate fetching meetings
   useEffect(() => {
-    // This would be replaced with an actual API call
     const demoMeetings = [
       {
         id: 1,
@@ -91,38 +90,15 @@ const IndexPage = () => {
     setMeetings(demoMeetings);
   }, [date, selectedLocation]);
 
-  // Simulate fetching birthdays
   useEffect(() => {
-    // This would be replaced with an actual API call
-    const demoBirthdays = [
-      {
-        name: "João Silva",
-        department: "Tecnologia",
-        date: "12-04", // Format: DD-MM
-      },
-      {
-        name: "Maria Santos",
-        department: "Recursos Humanos",
-        date: "15-04",
-      },
-      {
-        name: "Pedro Almeida",
-        department: "Marketing",
-        date: "17-04",
-      },
-    ];
-
-    setBirthdays(demoBirthdays);
-    
-    // Check if there are birthdays and show the modal after a delay
-    if (demoBirthdays.length > 0) {
+    if (birthdays.length > 0 && !birthdaysLoading) {
       const timer = setTimeout(() => {
         setShowBirthdayModal(true);
       }, 3000);
       
       return () => clearTimeout(timer);
     }
-  }, [date]);
+  }, [birthdays, birthdaysLoading]);
 
   const handleLocationChange = (value: string) => {
     setSelectedLocation(value);
@@ -138,7 +114,6 @@ const IndexPage = () => {
 
       <main className="container mx-auto px-4 py-6">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
-          {/* Sidebar with date and location selection */}
           <div className="md:col-span-3">
             <div className="space-y-6">
               <Card>
@@ -202,9 +177,11 @@ const IndexPage = () => {
                         "w-full py-2 cursor-pointer",
                         birthdays.length > 0 ? "hover:bg-purple-50" : ""
                       )}>
-                        {birthdays.length > 0
-                          ? `${birthdays.length} aniversariante(s) esta semana`
-                          : "Sem aniversariantes"}
+                        {birthdaysLoading 
+                          ? "Carregando aniversariantes..."
+                          : birthdays.length > 0
+                            ? `${birthdays.length} aniversariante(s) esta semana`
+                            : "Sem aniversariantes"}
                       </Badge>
                     </DialogTrigger>
                     <DialogContent className="sm:max-w-[425px]">
@@ -212,7 +189,11 @@ const IndexPage = () => {
                         <DialogTitle>Aniversariantes da Semana</DialogTitle>
                       </DialogHeader>
                       <div className="max-h-[300px] overflow-y-auto">
-                        {birthdays.map((birthday, index) => (
+                        {birthdaysLoading ? (
+                          <div className="py-4 text-center">Carregando...</div>
+                        ) : birthdays.length === 0 ? (
+                          <div className="py-4 text-center">Nenhum aniversariante esta semana.</div>
+                        ) : birthdays.map((birthday, index) => (
                           <div key={index} className="py-2 border-b last:border-0">
                             <div className="font-medium">{birthday.name}</div>
                             <div className="text-sm text-gray-500 flex justify-between">
@@ -229,7 +210,6 @@ const IndexPage = () => {
             </div>
           </div>
 
-          {/* Main content area */}
           <div className="md:col-span-9">
             <Card className="overflow-hidden">
               <CardHeader className="bg-purple-700 text-white">
@@ -245,11 +225,11 @@ const IndexPage = () => {
         </div>
       </main>
 
-      {/* Birthday Modal */}
       <BirthdayModal 
         isOpen={showBirthdayModal} 
         onClose={() => setShowBirthdayModal(false)}
         birthdays={birthdays}
+        loading={birthdaysLoading}
       />
     </div>
   );
