@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -20,7 +19,7 @@ export default {
         'lg': '1024px',
         'xl': '1280px',
         '2xl': '1536px',
-        '3xl': '1920px', // Added for TV display
+        '3xl': '1920px',
       }
     },
     extend: {
