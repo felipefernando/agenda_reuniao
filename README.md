@@ -1,73 +1,61 @@
-# Welcome to your Lovable project
 
-## Project info
+# Sistema de Agendamento - PHP Version
 
-**URL**: https://lovable.dev/projects/61e0e316-0410-4e30-bc89-ce4b11e8c7ca
+Esta é uma versão PHP do Sistema de Agendamento, projetada para rodar em um servidor Apache.
 
-## How can I edit this code?
+## Requisitos
 
-There are several ways of editing your application.
+- PHP 7.4 ou superior
+- MySQL 5.7 ou superior
+- Servidor Apache
+- PDO PHP Extension ativada
 
-**Use Lovable**
+## Instalação
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/61e0e316-0410-4e30-bc89-ce4b11e8c7ca) and start prompting.
+1. Clone ou baixe este repositório para o diretório raiz do seu servidor web
+2. Crie um banco de dados MySQL chamado `portal`
+3. Importe o arquivo `database.sql` para criar as tabelas e inserir dados de exemplo:
+   ```
+   mysql -u seu_usuario -p portal < database.sql
+   ```
+4. Edite as credenciais do banco de dados no arquivo `index.php` (função `connectDB()`) se necessário
+5. Acesse o aplicativo pelo navegador (por exemplo, http://localhost/sistema-agendamento)
 
-Changes made via Lovable will be committed automatically to this repo.
+## Estrutura do Projeto
 
-**Use your preferred IDE**
+- `index.php` - Arquivo principal do aplicativo
+- `css/styles.css` - Estilos CSS do aplicativo
+- `js/scripts.js` - Funções JavaScript do aplicativo
+- `database.sql` - Script SQL para criação do banco de dados e tabelas
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## Funcionalidades
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+- Exibição de reuniões agendadas para o dia atual
+- Filtro por unidade/localização
+- Listagem de salas disponíveis
+- Exibição de aniversariantes da semana atual
+- Atualização automática do relógio
 
-Follow these steps:
+## Customização
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+Você pode personalizar este aplicativo editando:
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+- O arquivo `css/styles.css` para alterar estilos e cores
+- As funções no arquivo `index.php` para modificar a lógica de negócio
+- Os parâmetros de conexão com o banco de dados na função `connectDB()`
 
-# Step 3: Install the necessary dependencies.
-npm i
+## Manutenção
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+Para adicionar novas reuniões ou aniversariantes, você pode:
 
-**Edit a file directly in GitHub**
+1. Usar o script SQL para inserir diretamente no banco de dados
+2. Criar uma interface administrativa (não incluída nesta versão)
+3. Integrar com sistemas existentes através de APIs
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## Compatibilidade
 
-**Use GitHub Codespaces**
+Este aplicativo foi projetado para funcionar em navegadores modernos e utiliza:
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/61e0e316-0410-4e30-bc89-ce4b11e8c7ca) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes it is!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+- Flexbox e Grid CSS para layout responsivo
+- JavaScript vanilla para funcionalidades do cliente
+- PHP PDO para conexões seguras com o banco de dados

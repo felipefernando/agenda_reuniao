@@ -1,0 +1,361 @@
+
+/* Reset & Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f5f5f5;
+}
+
+.container {
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* Header Styles */
+.header {
+    background-color: #fff;
+    border-bottom: 1px solid #e0e0e0;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    transition: all 0.3s ease;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+}
+
+.header-left, .header-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.logo {
+    height: 40px;
+    width: auto;
+}
+
+.divider {
+    height: 32px;
+    width: 1px;
+    background-color: #e0e0e0;
+}
+
+.header-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #333;
+    display: none;
+}
+
+.location-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.location-label {
+    font-size: 0.875rem;
+    color: #757575;
+}
+
+.location-value {
+    font-weight: 500;
+}
+
+.time {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #ea384c; /* Red color */
+}
+
+/* Main Content Styles */
+.main {
+    padding: 2rem 0;
+}
+
+.content-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+}
+
+.sidebar-section {
+    margin-bottom: 1.5rem;
+}
+
+.sidebar-section:last-child {
+    margin-bottom: 0;
+}
+
+.sidebar-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #ea384c; /* Red color */
+}
+
+.select-field {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    font-size: 0.875rem;
+}
+
+.room-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.room-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.room-item:hover {
+    background-color: #f5f5f5;
+}
+
+.room-item i {
+    color: #ea384c; /* Red color */
+}
+
+.date-range {
+    font-size: 0.875rem;
+    color: #757575;
+    margin-bottom: 1rem;
+}
+
+.birthday-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.birthday-item {
+    display: flex;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    background-color: #fff4f4; /* Light red background */
+    border-radius: 6px;
+}
+
+.birthday-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background-color: #ffd9dc; /* Lighter red background */
+    color: #ea384c; /* Red color */
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.birthday-details {
+    flex-grow: 1;
+}
+
+.birthday-name {
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+}
+
+.birthday-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: #757575;
+}
+
+.no-birthdays {
+    text-align: center;
+    color: #757575;
+    font-style: italic;
+    padding: 1rem 0;
+}
+
+/* Card Styles */
+.card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.card-header {
+    background-color: #ea384c; /* Red color */
+    color: #fff;
+    padding: 1rem 1.5rem;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+/* Meeting Schedule Styles */
+.meeting-schedule {
+    display: grid;
+    gap: 1rem;
+}
+
+.meeting-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    transition: all 0.2s;
+}
+
+.meeting-card:hover {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.meeting-active {
+    border-left: 4px solid #ea384c; /* Red color */
+    background-color: #fff4f4; /* Light red background */
+}
+
+.meeting-upcoming {
+    border-left: 4px solid #ea384c; /* Red color */
+}
+
+.meeting-past {
+    opacity: 0.7;
+}
+
+.meeting-time {
+    font-weight: 600;
+    color: #333;
+}
+
+.meeting-details {
+    display: grid;
+    gap: 0.25rem;
+}
+
+.meeting-subject {
+    font-weight: 500;
+}
+
+.meeting-room, .meeting-requester {
+    font-size: 0.875rem;
+    color: #757575;
+}
+
+.meeting-status {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 0.5rem;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.status-active {
+    background-color: #ea384c; /* Red color */
+    color: #fff;
+}
+
+.status-upcoming {
+    background-color: #ffd9dc; /* Light red */
+    color: #ea384c; /* Red color */
+}
+
+.status-past {
+    background-color: #e0e0e0;
+    color: #757575;
+}
+
+.no-meetings {
+    text-align: center;
+    color: #757575;
+    font-style: italic;
+    padding: 2rem 0;
+}
+
+/* Footer Styles */
+.footer {
+    background-color: #fff;
+    border-top: 1px solid #e0e0e0;
+    padding: 1.5rem 0;
+    text-align: center;
+    font-size: 0.875rem;
+    color: #757575;
+    margin-top: 2rem;
+}
+
+/* Responsive Styles */
+@media (min-width: 768px) {
+    .header-title {
+        display: block;
+    }
+
+    .content-grid {
+        grid-template-columns: 300px 1fr;
+    }
+
+    .meeting-card {
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .meeting-time {
+        flex-basis: 100px;
+        flex-shrink: 0;
+    }
+
+    .meeting-details {
+        flex-grow: 1;
+    }
+
+    .meeting-status {
+        margin-top: 0;
+    }
+}
+
+@media (min-width: 1920px) {
+    html {
+        font-size: 18px;
+    }
+}
