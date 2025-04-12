@@ -212,7 +212,7 @@ const IndexPage = () => {
 
           <div className="md:col-span-9">
             <Card className="overflow-hidden">
-              <CardHeader className="bg-purple-700 text-white">
+              <CardHeader className="bg-red-700 text-white">
                 <CardTitle className="text-xl">
                   Agenda de Reuniões - {currentDateFormatted}
                 </CardTitle>

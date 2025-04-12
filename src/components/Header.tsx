@@ -58,7 +58,7 @@ export function Header({ selectedLocation }: HeaderProps) {
               <span className="font-medium">{selectedLocation}</span>
             </div>
             <div className="h-8 w-px bg-gray-200" />
-            <div className="text-xl font-bold text-purple-700">{formattedTime}</div>
+            <div className="text-xl font-bold text-red-700">{formattedTime}</div> {/* Changed from purple-700 to red-700 */}
           </div>
         </div>
       </div>
