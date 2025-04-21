@@ -40,6 +40,7 @@ const IndexPage = () => {
   const [meetings, setMeetings] = useState([]);
   const [loadingMeetings, setLoadingMeetings] = useState(true);
   const [showBirthdayModal, setShowBirthdayModal] = useState(false);
+  const [countdown, setCountdown] = useState(60);
 
   const { birthdays, loading: birthdaysLoading } = useBirthdays(selectedLocation, date);
 
@@ -57,7 +58,6 @@ const IndexPage = () => {
         );
         const data = await response.json();
   
-        // Ordenar as reuniões
         const now = new Date().getTime();
         const sortedMeetings = data
           .map(meeting => ({
@@ -77,16 +77,13 @@ const IndexPage = () => {
               "concluída": 2
             };
             
-            // Primeiro, ordenar por status
             if (statusPriority[a.status] !== statusPriority[b.status]) {
               return statusPriority[a.status] - statusPriority[b.status];
             }
             
-            // Se o status for igual, ordenar por horário de início
             return a.dateStart - b.dateStart;
           });
   
-        console.log("Reuniões ordenadas:", sortedMeetings);
         setMeetings(sortedMeetings);
       } catch (error) {
         console.error("Erro ao buscar reuniões:", error);
@@ -94,9 +91,24 @@ const IndexPage = () => {
         setLoadingMeetings(false);
       }
     };
-  
+
     fetchMeetings();
+    
+    const intervalId = setInterval(() => {
+      fetchMeetings();
+      setCountdown(60); // Reset countdown
+    }, 60000);
+
+    return () => clearInterval(intervalId);
   }, [formattedDate, selectedLocation]);
+
+  useEffect(() => {
+    const countdownInterval = setInterval(() => {
+      setCountdown((prev) => (prev > 0 ? prev - 1 : 60));
+    }, 1000);
+
+    return () => clearInterval(countdownInterval);
+  }, []);
 
   useEffect(() => {
     if (birthdays.length > 0 && !birthdaysLoading) {
@@ -225,10 +237,14 @@ const IndexPage = () => {
 
           <div className="md:col-span-9">
             <Card className="overflow-hidden">
-              <CardHeader className="bg-red-700 text-white">
+              <CardHeader className="bg-red-700 text-white flex justify-between items-center">
                 <CardTitle className="text-xl">
                   Agenda de Reuniões - {currentDateFormatted}
                 </CardTitle>
+                <div className="text-sm flex items-center gap-2">
+                  <span>Atualização em:</span>
+                  <span className="bg-red-600 px-2 py-1 rounded">{countdown}s</span>
+                </div>
               </CardHeader>
               <CardContent className="p-0">
                 {loadingMeetings ? (
