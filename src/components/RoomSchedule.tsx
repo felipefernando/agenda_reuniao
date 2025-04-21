@@ -86,7 +86,7 @@ export function RoomSchedule({ meetings }: RoomScheduleProps) {
                     className={cn(
                       "h-3 w-3 rounded-full",
                       status === "active" ? "bg-green-500" : "",
-                      status === "upcoming" ? "bg-purple-500" : "",
+                      status === "upcoming" ? "bg-red-500" : "",
                       status === "past" ? "bg-gray-300" : ""
                     )}
                   />
@@ -110,7 +110,7 @@ export function RoomSchedule({ meetings }: RoomScheduleProps) {
             <span>Em andamento</span>
           </div>
           <div className="flex items-center gap-1">
-            <span className="h-3 w-3 rounded-full bg-purple-500"></span>
+            <span className="h-3 w-3 rounded-full bg-red-500"></span>
             <span>Próximas</span>
           </div>
           <div className="flex items-center gap-1">

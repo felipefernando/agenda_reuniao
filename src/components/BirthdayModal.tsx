@@ -36,7 +36,7 @@ export function BirthdayModal({ isOpen, onClose, birthdays, loading = false }: B
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="sm:max-w-md">
-        <div className="absolute -top-12 left-1/2 transform -translate-x-1/2 bg-purple-500 rounded-full p-5">
+        <div className="absolute -top-12 left-1/2 transform -translate-x-1/2 bg-red-500 rounded-full p-5">
           <PartyPopper size={30} className="text-white" />
         </div>
 
@@ -55,7 +55,7 @@ export function BirthdayModal({ isOpen, onClose, birthdays, loading = false }: B
                 key={index}
                 className={cn(
                   "p-4 mb-2 rounded-lg border transition-all duration-300 hover:shadow-md",
-                  index % 2 === 0 ? "bg-purple-50" : "bg-blue-50"
+                  index % 2 === 0 ? "bg-red-50" : "bg-blue-50"
                 )}
               >
                 <div className="font-semibold text-lg">{birthday.name}</div>

@@ -148,10 +148,10 @@ const IndexPage = () => {
                 </CardHeader>
                 <CardContent className="pt-0">
                   <div 
-                    className="mb-4 flex flex-col items-center p-2 rounded-lg cursor-pointer hover:bg-purple-50 transition-colors border"
+                    className="mb-4 flex flex-col items-center p-2 rounded-lg cursor-pointer hover:bg-red-50 transition-colors border"
                     onClick={() => setShowBirthdayModal(true)}
                   >
-                    <div className="text-4xl font-bold text-purple-700">{dayOfMonth}</div>
+                    <div className="text-4xl font-bold text-red-600">{dayOfMonth}</div>
                     <div className="text-sm text-gray-500 capitalize">{monthName}</div>
                   </div>
                   <Calendar
@@ -175,7 +175,7 @@ const IndexPage = () => {
                     <DialogTrigger asChild>
                       <Badge variant="outline" className={cn(
                         "w-full py-2 cursor-pointer",
-                        birthdays.length > 0 ? "hover:bg-purple-50" : ""
+                        birthdays.length > 0 ? "hover:bg-red-50" : ""
                       )}>
                         {birthdaysLoading 
                           ? "Carregando aniversariantes..."

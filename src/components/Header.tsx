@@ -42,13 +42,13 @@ export function Header({ selectedLocation }: HeaderProps) {
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center gap-4">
             <img
-              src="https://via.placeholder.com/120x40?text=Mondial"
-              alt="Logo Mondial"
+              src="/public/aiwa.png"
+              alt="Logo Aiwa"
               className="h-10 w-auto"
             />
             <div className="h-8 w-px bg-gray-200 hidden md:block" />
             <h1 className="text-xl font-semibold text-gray-800 hidden md:block">
-              Sistema de Agendamento
+              Salas de Reunião - Agenda
             </h1>
           </div>
 
