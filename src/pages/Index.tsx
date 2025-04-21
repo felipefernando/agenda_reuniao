@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { Calendar } from "@/components/ui/calendar";
+import { CountdownTimer } from "@/components/ui/CountdownTimer";
 import {
   Card,
   CardContent,
@@ -237,15 +238,14 @@ const IndexPage = () => {
 
           <div className="md:col-span-9">
             <Card className="overflow-hidden">
-              <CardHeader className="bg-red-700 text-white flex justify-between items-center">
+            <CardHeader className="bg-red-700 text-white px-4 py-3">
+              <div className="flex justify-between items-center">
                 <CardTitle className="text-xl">
                   Agenda de Reuniões - {currentDateFormatted}
                 </CardTitle>
-                <div className="text-sm flex items-center gap-2">
-                  <span>Atualização em:</span>
-                  <span className="bg-red-600 px-2 py-1 rounded">{countdown}s</span>
-                </div>
-              </CardHeader>
+                <CountdownTimer seconds={countdown} />
+              </div>
+            </CardHeader>
               <CardContent className="p-0">
                 {loadingMeetings ? (
                   <div className="p-8 text-center text-gray-500">Carregando reuniões...</div>
