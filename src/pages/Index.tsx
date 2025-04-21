@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { Calendar } from "@/components/ui/calendar";
@@ -129,7 +129,7 @@ const IndexPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 flex flex-col">
       <Header selectedLocation={selectedLocation} />
 
       <main className="container mx-auto px-4 py-6">
@@ -264,6 +264,12 @@ const IndexPage = () => {
         birthdays={birthdays}
         loading={birthdaysLoading}
       />
+
+      <footer className="mt-auto bg-gray-100 py-4 text-right px-4">
+        <span className="text-sm text-gray-600">
+          Developed By <span className="font-semibold text-gray-800">Felipe Vieira</span>
+        </span>
+      </footer>
     </div>
   );
 };
