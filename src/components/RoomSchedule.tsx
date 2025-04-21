@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
@@ -23,7 +22,6 @@ export function RoomSchedule({ meetings }: RoomScheduleProps) {
   const [sortedMeetings, setSortedMeetings] = useState<Meeting[]>([]);
 
   useEffect(() => {
-    // Update the time every minute
     const timer = setInterval(() => {
       setCurrentTime(new Date());
     }, 60000);
@@ -31,19 +29,16 @@ export function RoomSchedule({ meetings }: RoomScheduleProps) {
   }, []);
 
   useEffect(() => {
-    // Sort meetings by start time
     const sorted = [...meetings].sort((a, b) => a.dateStart - b.dateStart);
     setSortedMeetings(sorted);
   }, [meetings]);
 
-  // Function to format the time range
   const formatTimeRange = (start: number, end: number) => {
     const startTime = format(new Date(start), "HH:mm", { locale: ptBR });
     const endTime = format(new Date(end), "HH:mm", { locale: ptBR });
     return `${startTime} - ${endTime}`;
   };
 
-  // Function to determine the status of the meeting
   const getMeetingStatus = (meeting: Meeting) => {
     const now = currentTime.getTime();
     if (now >= meeting.dateStart && now <= meeting.dateEnd) {
@@ -86,7 +81,7 @@ export function RoomSchedule({ meetings }: RoomScheduleProps) {
                     className={cn(
                       "h-3 w-3 rounded-full",
                       status === "active" ? "bg-green-500" : "",
-                      status === "upcoming" ? "bg-red-500" : "",
+                      status === "upcoming" ? "bg-orange-500" : "",
                       status === "past" ? "bg-gray-300" : ""
                     )}
                   />
@@ -110,7 +105,7 @@ export function RoomSchedule({ meetings }: RoomScheduleProps) {
             <span>Em andamento</span>
           </div>
           <div className="flex items-center gap-1">
-            <span className="h-3 w-3 rounded-full bg-red-500"></span>
+            <span className="h-3 w-3 rounded-full bg-orange-500"></span>
             <span>Próximas</span>
           </div>
           <div className="flex items-center gap-1">
