@@ -29,9 +29,35 @@ export function RoomSchedule({ meetings }: RoomScheduleProps) {
   }, []);
 
   useEffect(() => {
-    const sorted = [...meetings].sort((a, b) => a.dateStart - b.dateStart);
+    const now = currentTime.getTime();
+    const sorted = [...meetings].sort((a, b) => {
+      // Get status for both meetings
+      const statusA = now >= a.dateStart && now <= a.dateEnd 
+        ? "active"
+        : now < a.dateStart 
+          ? "upcoming" 
+          : "past";
+      
+      const statusB = now >= b.dateStart && now <= b.dateEnd 
+        ? "active"
+        : now < b.dateStart 
+          ? "upcoming" 
+          : "past";
+
+      // Define priority order
+      const statusOrder = { active: 0, upcoming: 1, past: 2 };
+
+      // First sort by status
+      if (statusA !== statusB) {
+        return statusOrder[statusA] - statusOrder[statusB];
+      }
+
+      // If same status, sort by start time
+      return a.dateStart - b.dateStart;
+    });
+
     setSortedMeetings(sorted);
-  }, [meetings]);
+  }, [meetings, currentTime]);
 
   const formatTimeRange = (start: number, end: number) => {
     const startTime = format(new Date(start), "HH:mm", { locale: ptBR });

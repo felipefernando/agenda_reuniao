@@ -38,8 +38,9 @@ const IndexPage = () => {
   const [selectedLocation, setSelectedLocation] = useState("MANAUS");
   const [date, setDate] = useState(new Date());
   const [meetings, setMeetings] = useState([]);
+  const [loadingMeetings, setLoadingMeetings] = useState(true);
   const [showBirthdayModal, setShowBirthdayModal] = useState(false);
-  
+
   const { birthdays, loading: birthdaysLoading } = useBirthdays(selectedLocation, date);
 
   const formattedDate = format(date, "yyyy-MM-dd");
@@ -48,54 +49,61 @@ const IndexPage = () => {
   const monthName = format(date, "MMMM", { locale: ptBR });
 
   useEffect(() => {
-    const demoMeetings = [
-      {
-        id: 1,
-        requester: "Carlos Silva",
-        room: "Sala Executiva 01",
-        subject: "Planejamento Estratégico",
-        dateStart: new Date(date).setHours(9, 0),
-        dateEnd: new Date(date).setHours(10, 30),
-        isPast: new Date(date).setHours(10, 30) < new Date().getTime(),
-      },
-      {
-        id: 2,
-        requester: "Ana Martins",
-        room: "Sala de Conferência",
-        subject: "Reunião com Fornecedores",
-        dateStart: new Date(date).setHours(11, 0),
-        dateEnd: new Date(date).setHours(12, 0),
-        isPast: new Date(date).setHours(12, 0) < new Date().getTime(),
-      },
-      {
-        id: 3,
-        requester: "Roberto Almeida",
-        room: "Sala de Treinamento",
-        subject: "Onboarding Novos Colaboradores",
-        dateStart: new Date(date).setHours(13, 30),
-        dateEnd: new Date(date).setHours(15, 0),
-        isPast: new Date(date).setHours(15, 0) < new Date().getTime(),
-      },
-      {
-        id: 4,
-        requester: "Maria Eduarda",
-        room: "Sala Pequena 02",
-        subject: "Revisão de Projetos",
-        dateStart: new Date(date).setHours(15, 30),
-        dateEnd: new Date(date).setHours(16, 30),
-        isPast: new Date(date).setHours(16, 30) < new Date().getTime(),
-      },
-    ];
-
-    setMeetings(demoMeetings);
-  }, [date, selectedLocation]);
+    const fetchMeetings = async () => {
+      setLoadingMeetings(true);
+      try {
+        const response = await fetch(
+          `http://localhost:3001/api/meetings?dt_ini=${formattedDate} 00:00:00&dt_fim=${formattedDate} 23:59:59&local=${selectedLocation}`
+        );
+        const data = await response.json();
+  
+        // Ordenar as reuniões
+        const now = new Date().getTime();
+        const sortedMeetings = data
+          .map(meeting => ({
+            ...meeting,
+            dateStart: Number(meeting.dateStart),
+            dateEnd: Number(meeting.dateEnd),
+            status: now >= meeting.dateStart && now <= meeting.dateEnd
+              ? "em andamento"
+              : now < meeting.dateStart
+                ? "próxima"
+                : "concluída"
+          }))
+          .sort((a, b) => {
+            const statusPriority = {
+              "em andamento": 0,
+              "próxima": 1,
+              "concluída": 2
+            };
+            
+            // Primeiro, ordenar por status
+            if (statusPriority[a.status] !== statusPriority[b.status]) {
+              return statusPriority[a.status] - statusPriority[b.status];
+            }
+            
+            // Se o status for igual, ordenar por horário de início
+            return a.dateStart - b.dateStart;
+          });
+  
+        console.log("Reuniões ordenadas:", sortedMeetings);
+        setMeetings(sortedMeetings);
+      } catch (error) {
+        console.error("Erro ao buscar reuniões:", error);
+      } finally {
+        setLoadingMeetings(false);
+      }
+    };
+  
+    fetchMeetings();
+  }, [formattedDate, selectedLocation]);
 
   useEffect(() => {
     if (birthdays.length > 0 && !birthdaysLoading) {
       const timer = setTimeout(() => {
         setShowBirthdayModal(true);
       }, 3000);
-      
+
       return () => clearTimeout(timer);
     }
   }, [birthdays, birthdaysLoading]);
@@ -147,7 +155,7 @@ const IndexPage = () => {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="pt-0">
-                  <div 
+                  <div
                     className="mb-4 flex flex-col items-center p-2 rounded-lg cursor-pointer hover:bg-red-50 transition-colors border"
                     onClick={() => setShowBirthdayModal(true)}
                   >
@@ -163,7 +171,7 @@ const IndexPage = () => {
                 </CardContent>
               </Card>
 
-              <Card>
+              {/* <Card>
                 <CardHeader className="pb-2">
                   <CardTitle className="text-lg flex items-center gap-2">
                     <Users size={18} />
@@ -173,15 +181,18 @@ const IndexPage = () => {
                 <CardContent className="pt-0">
                   <Dialog>
                     <DialogTrigger asChild>
-                      <Badge variant="outline" className={cn(
-                        "w-full py-2 cursor-pointer",
-                        birthdays.length > 0 ? "hover:bg-red-50" : ""
-                      )}>
-                        {birthdaysLoading 
+                      <Badge
+                        variant="outline"
+                        className={cn(
+                          "w-full py-2 cursor-pointer",
+                          birthdays.length > 0 ? "hover:bg-red-50" : ""
+                        )}
+                      >
+                        {birthdaysLoading
                           ? "Carregando aniversariantes..."
                           : birthdays.length > 0
-                            ? `${birthdays.length} aniversariante(s) esta semana`
-                            : "Sem aniversariantes"}
+                          ? `${birthdays.length} aniversariante(s) esta semana`
+                          : "Sem aniversariantes"}
                       </Badge>
                     </DialogTrigger>
                     <DialogContent className="sm:max-w-[425px]">
@@ -193,20 +204,22 @@ const IndexPage = () => {
                           <div className="py-4 text-center">Carregando...</div>
                         ) : birthdays.length === 0 ? (
                           <div className="py-4 text-center">Nenhum aniversariante esta semana.</div>
-                        ) : birthdays.map((birthday, index) => (
-                          <div key={index} className="py-2 border-b last:border-0">
-                            <div className="font-medium">{birthday.name}</div>
-                            <div className="text-sm text-gray-500 flex justify-between">
-                              <span className="capitalize">{birthday.department}</span>
-                              <span>{birthday.date}</span>
+                        ) : (
+                          birthdays.map((birthday, index) => (
+                            <div key={index} className="py-2 border-b last:border-0">
+                              <div className="font-medium">{birthday.name}</div>
+                              <div className="text-sm text-gray-500 flex justify-between">
+                                <span className="capitalize">{birthday.department}</span>
+                                <span>{birthday.date}</span>
+                              </div>
                             </div>
-                          </div>
-                        ))}
+                          ))
+                        )}
                       </div>
                     </DialogContent>
                   </Dialog>
                 </CardContent>
-              </Card>
+              </Card> */}
             </div>
           </div>
 
@@ -218,15 +231,19 @@ const IndexPage = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent className="p-0">
-                <RoomSchedule meetings={meetings} />
+                {loadingMeetings ? (
+                  <div className="p-8 text-center text-gray-500">Carregando reuniões...</div>
+                ) : (
+                  <RoomSchedule meetings={meetings} />
+                )}
               </CardContent>
             </Card>
           </div>
         </div>
       </main>
 
-      <BirthdayModal 
-        isOpen={showBirthdayModal} 
+      <BirthdayModal
+        isOpen={showBirthdayModal}
         onClose={() => setShowBirthdayModal(false)}
         birthdays={birthdays}
         loading={birthdaysLoading}
