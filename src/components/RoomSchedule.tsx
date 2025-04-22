@@ -82,9 +82,9 @@ export function RoomSchedule({ meetings }: RoomScheduleProps) {
   return (
     <div>
       <div className="px-4 py-2 bg-gray-50 border-b flex items-center font-medium text-gray-600">
-        <div className="w-4/12">Requisitante</div>
+        <div className="w-3/12">Requisitante</div>
         <div className="w-2/12">Sala</div>
-        <div className="w-4/12">Assunto</div>
+        <div className="w-5/12">Assunto</div>
         <div className="w-2/12">Horário</div>
       </div>
 
@@ -105,7 +105,7 @@ export function RoomSchedule({ meetings }: RoomScheduleProps) {
                   status === "past" ? "text-gray-400" : ""
                 )}
               >
-                <div className="w-4/12 flex items-center gap-2">
+                <div className="w-3/12 flex items-center gap-2">
                   <span
                     className={cn(
                       "h-3 w-3 rounded-full",
@@ -117,7 +117,7 @@ export function RoomSchedule({ meetings }: RoomScheduleProps) {
                   {capitalizeWords(meeting.requester)}
                 </div>
                 <div className="w-2/12">{meeting.room}</div>
-                <div className="w-4/12">{meeting.subject}</div>
+                <div className="w-5/12">{meeting.subject}</div>
                 <div className="w-2/12 text-sm">
                   {formatTimeRange(meeting.dateStart, meeting.dateEnd)}
                 </div>
