@@ -31,7 +31,6 @@ export function RoomSchedule({ meetings }: RoomScheduleProps) {
   useEffect(() => {
     const now = currentTime.getTime();
     const sorted = [...meetings].sort((a, b) => {
-      // Get status for both meetings
       const statusA = now >= a.dateStart && now <= a.dateEnd 
         ? "active"
         : now < a.dateStart 
@@ -44,15 +43,12 @@ export function RoomSchedule({ meetings }: RoomScheduleProps) {
           ? "upcoming" 
           : "past";
 
-      // Define priority order
       const statusOrder = { active: 0, upcoming: 1, past: 2 };
 
-      // First sort by status
       if (statusA !== statusB) {
         return statusOrder[statusA] - statusOrder[statusB];
       }
 
-      // If same status, sort by start time
       return a.dateStart - b.dateStart;
     });
 
@@ -118,7 +114,7 @@ export function RoomSchedule({ meetings }: RoomScheduleProps) {
                       status === "past" ? "bg-gray-300" : ""
                     )}
                   />
-                  {meeting.requester}
+                  {capitalizeWords(meeting.requester)}
                 </div>
                 <div className="w-2/12">{meeting.room}</div>
                 <div className="w-4/12">{meeting.subject}</div>
